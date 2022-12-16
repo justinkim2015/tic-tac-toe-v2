@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+
+.board {
+  height: 30rem;
+  width: 30rem;
+  display: grid;
+  grid-template-columns: 9rem 9rem 9rem;
+  grid-template-rows: 9rem 9rem 9rem;
+  gap: 0.5rem;
+}
+
+.box {
+  height: 9rem;
+  width: 9rem;
+  border: 1px black solid;
+}
