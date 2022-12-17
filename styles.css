@@ -19,4 +19,8 @@ body {
   height: 9rem;
   width: 9rem;
   border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
