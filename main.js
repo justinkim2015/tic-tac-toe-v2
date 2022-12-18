@@ -16,9 +16,9 @@ const gameBoard = (() => {
 // display module
 const display = (() => {
   const update = (board) => {
-    board.forEach((element, index) => {
+    board.forEach((node, index) => {
       box = document.querySelector(`#box${index}`)
-      box.textContent = element
+      box.textContent = node
     });
   };
 
@@ -28,43 +28,64 @@ const display = (() => {
 // Game logic
 const logic = (() => {
   let boxList = document.querySelectorAll('.box');
+  let turn = 'X'
+  let turnCount = 0
 
-  const updateArray = (index, element, piece) => {
-    if(element.textContent == '') {
-      gameBoard.setCell(index, piece) 
+  const winConditions = [
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]
+
+  const winnerCheck = () => {
+    board = gameBoard.getBoard()
+    winConditions.forEach(winState => {
+      if(board[winState[0]] == 'X' && board[winState[1]] == 'X' && board[winState[2]] == 'X'){
+        alert('winner')
+      }
+    })
+  };
+
+  const changeTurn = () => {
+    if(turn == 'X') {
+      turn = 'O'
+    } else {
+      turn = 'X'
+    };
+  };
+
+  const updateNode = (index, node) => {
+    if(node.textContent == '') {
+      gameBoard.setCell(index, turn) 
       display.update(gameBoard.getBoard())
     };
   };
 
-  // const removeListener = (node, callback) => {
-  //   node.removeEventListener('click', callback )
-  // }
-
-  // const addListeners = (nodes, piece) => {
-  //   for (let i = 0; i < nodes.length; i++) {
-  //     let callback = () => {updateArray(nodes[i], piece)}
-  //     nodes[i].addEventListener('click', callback )
-  //     nodes[i].addEventListener('click', () => {removeListener(nodes[i], callback)} )
-  //   };
-  // };
-
-  const removeListeners = (nodes, callbacks) => {
-    nodes.forEach( (element, index) => {element.removeEventListener('click', callbacks[index])})
-    addListeners(boxList, 'O')
-  }
-
   const addListeners = (nodes, piece) => {
-    let callbacks = []
-
     for (let i = 0; i < nodes.length; i++) {
-      callbacks.push(() => {updateArray(i, nodes[i], piece)})
-      nodes[i].addEventListener('click', callbacks[i] )
-      // nodes[i].addEventListener('click', () => {removeListeners(nodes, callbacks)} )
+      nodes[i].addEventListener('click', () => takeTurn(i, nodes[i]) )
     };
   };
 
+  const isTie = () => {
+    if(turnCount == 9){ alert('Its a tie') }
+  }
+
+  const takeTurn = (index, node) => {
+    updateNode(index, node)
+    changeTurn()
+    turnCount++
+    isTie()
+    winnerCheck()
+  };
+
   const playGame = (player1, player2) => {
-    addListeners(boxList, player1.piece)
+    addListeners(boxList, turn)
   };
 
   return { playGame }
@@ -77,6 +98,7 @@ const makePlayer = ((name, piece) => {
 
 const playerOne = makePlayer('justin', 'X')
 const playerTwo = makePlayer('maya', 'O')  
+let current_player = playerOne
 
 display.update(gameBoard.getBoard())
 
