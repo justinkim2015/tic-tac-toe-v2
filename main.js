@@ -19,13 +19,16 @@ const gameBoard = (() => {
     nodes = document.querySelectorAll('.box')
     values = new Array(9).fill('')
     display.showBoard(getBoard())
+    display.showTurn(player1.name)
     logic.addListeners(nodes, player1, player2)
     document.querySelector('#new-game').classList.toggle('hidden')
     document.querySelector('#reset').classList.toggle('hidden')
   }
 
-  const resetButton = () => {
+  const resetButton = (player1) => {
     values = new Array(9).fill('')
+    logic.resetTurnCount()
+    display.showTurn(player1.name)
     display.showBoard(getBoard())
   }
 
@@ -106,8 +109,8 @@ const logic = (() => {
       nodes[i].addEventListener('click', () => takeTurn(i, nodes[i], playerOne, playerTwo) )
     };
 
-    document.querySelector('#reset').addEventListener('click', () => gameBoard.resetButton())
-    document.querySelector('#new-game').addEventListener('click', () => gameBoard.reset(nodes, playerOne, playerTwo))
+    document.querySelector('#reset').addEventListener('click', () => gameBoard.resetButton(playerOne))
+    document.querySelector('#new-game').addEventListener('click', () => gameBoard.reset(playerOne, playerTwo))
   };
 
   const isTie = () => {
@@ -144,7 +147,7 @@ const logic = (() => {
     display.showBoard(gameBoard.getBoard())
   };
 
-  return { playGame, addListeners, removeListeners, setName, getName }
+  return { playGame, addListeners, removeListeners, setName, getName, resetTurnCount }
 })();
 
 // display module
@@ -163,11 +166,19 @@ const display = (() => {
   }
 
   const closeModal = (event, modal) => {
+    let playerOneName = document.getElementById('playerone').value
+    let playerTwoName = document.getElementById('playertwo').value
+
+    setNameInfo(playerOneName, playerTwoName)
+    display.showTurn(playerOneName)
     modal.style.display = "none"
     event.preventDefault();
-    logic.setName(1, document.getElementById('playerone').value)
-    logic.setName(2, document.getElementById('playertwo').value)
   };
+
+  const setNameInfo = (playerOneName, playerTwoName) => {
+    logic.setName(1, playerOneName)
+    logic.setName(2, playerTwoName)
+  }
 
   const showTurn = (name) => {
     div = document.querySelector('#whos-turn')
