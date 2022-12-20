@@ -1,5 +1,15 @@
-* {
-  /* border: red 1px solid; */
+.default-button {
+  padding: 1rem 2rem 1rem 2rem;
+  background-color: #F5EFED;
+  color: #0F0A0A;
+  border: none;
+  border-radius: 5px;
+  font-size: 8px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.default-button:hover {
+  background: rgb(202, 202, 202);
 }
 
 body {
@@ -8,6 +18,23 @@ body {
   justify-content: center;
   align-items: center;
   height: 95vh;
+  background-color: #797D81;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+}
+
+#title {
+  color: #0F0A0A;
+  font-size: 32px;
+  background-color: #F5EFED;
+  padding: 2rem;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 3px;
+}
+
+#whos-turn {
+  height: 0%;
+  margin: 1rem 0 1rem 0;
 }
 
 .hidden {
@@ -23,16 +50,25 @@ body {
   grid-template-rows: 9rem 9rem 9rem;
   align-content: center;
   justify-content: center;
+  gap: .3rem;
+  margin-bottom: 2rem;
+}
+
+.box:hover {
+  background: rgb(202, 202, 202);
 }
 
 .box {
   height: 9rem;
   width: 9rem;
-  border: 1px black solid;
+  background: #F5EFED;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size:24px;
 }
 
 .modal {
@@ -49,7 +85,19 @@ body {
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
-  padding: 20px;
+  padding: 3rem;
   border: 1px solid #888;
-  width: 50%;
+  width: 22%;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.input {
+  padding: .5rem;
 }

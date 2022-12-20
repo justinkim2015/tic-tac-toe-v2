@@ -5,10 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Tic-Tac-Toe</h1>
+  <h1 id="title">Tic-Tac-Toe</h1>
+  <h3 id="whos-turn"></h3>
   <div class="board">
     <div class="box" id="box0"></div>
     <div class="box" id="box1"></div>
@@ -21,24 +27,25 @@
     <div class="box" id="box8"></div>
   </div>
 
-  <button id="reset">Reset</button>
-  <button id="new-game" class="hidden">New Game</button>
+  <button id="reset" class="default-button">Reset</button>
+  <button id="new-game" class="hidden default-button">New Game</button>
 
   <div class="modal">
     <div class="modal-content">
-      <form id="players" class='' action="">
+      <form id="players" class='flex' action="">
+        <h1>Please enter your names!</h1>
+
         <label for="playerone">Player 1:</label>
-        <input type="text" id="playerone" name="playerone">
+        <input type="text" id="playerone" class="input" name="playerone">
         
         <label for="playertwo">Player 2:</label>
-        <input type="text" id="playertwo" name="playertwo">
+        <input type="text" id="playertwo" class="input" name="playertwo">
     
     
-        <input type="submit" id='name-submit'>
+        <input type="submit" id='name-submit' class="default-button">
       </form>
     </div>
   </div>
-
 
   <script src="main.js"></script>
 </body>

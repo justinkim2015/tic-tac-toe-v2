@@ -18,7 +18,7 @@ const gameBoard = (() => {
   const reset = (player1, player2) => {
     nodes = document.querySelectorAll('.box')
     values = new Array(9).fill('')
-    display.update(getBoard())
+    display.showBoard(getBoard())
     logic.addListeners(nodes, player1, player2)
     document.querySelector('#new-game').classList.toggle('hidden')
     document.querySelector('#reset').classList.toggle('hidden')
@@ -26,7 +26,7 @@ const gameBoard = (() => {
 
   const resetButton = () => {
     values = new Array(9).fill('')
-    display.update(getBoard())
+    display.showBoard(getBoard())
   }
 
   return {setCell, getBoard, reset, resetButton}
@@ -36,10 +36,10 @@ const gameBoard = (() => {
 // Game logic
 const logic = (() => {
   let boxList = document.querySelectorAll('.box');
-  let turn = 'X'
-  let turnCount = 0
   let playerOne = makePlayer('Player1', 'X')
   let playerTwo = makePlayer('Player2', 'O')  
+  let current_player = playerOne
+  let turnCount = 1
 
   const winConditions = [
     [0, 3, 6],
@@ -75,21 +75,21 @@ const logic = (() => {
   };
 
   const resetTurnCount = () => {
-    turnCount = 0
+    turnCount = 1
   }
 
   const changeTurn = () => {
-    if(turn == 'X') {
-      turn = 'O'
+    if(current_player == playerOne) {
+      current_player = playerTwo
     } else {
-      turn = 'X'
+      current_player = playerOne
     };
   };
 
   const updateNode = (index, node) => {
     if(node.textContent == '') {
-      gameBoard.setCell(index, turn) 
-      display.update(gameBoard.getBoard())
+      gameBoard.setCell(index, current_player.piece) 
+      display.showBoard(gameBoard.getBoard())
     };
   };
 
@@ -119,6 +119,7 @@ const logic = (() => {
     winnerCheck(playerOne, playerTwo)
     isTie()
     changeTurn()
+    display.showTurn(current_player.name)
     turnCount++
   };
 
@@ -139,6 +140,8 @@ const logic = (() => {
   }
   const playGame = (player1, player2) => {
     addListeners(boxList, playerOne, playerTwo)
+    display.modalControls()
+    display.showBoard(gameBoard.getBoard())
   };
 
   return { playGame, addListeners, removeListeners, setName, getName }
@@ -146,14 +149,14 @@ const logic = (() => {
 
 // display module
 const display = (() => {
-  const update = (board) => {
+  const showBoard = (board) => {
     board.forEach((node, index) => {
       box = document.querySelector(`#box${index}`)
       box.textContent = node
     });
   };
 
-  const modal = () => {
+  const modalControls = () => {
     let modal = document.querySelector('.modal')
     let close = document.querySelector('#name-submit')
     close.addEventListener('click', (event) => {closeModal(event, modal)})
@@ -166,13 +169,12 @@ const display = (() => {
     logic.setName(2, document.getElementById('playertwo').value)
   };
 
-  return { update, modal }
+  const showTurn = (name) => {
+    div = document.querySelector('#whos-turn')
+    div.textContent =  `It is ${name}'s turn!` 
+  }
+
+  return { showBoard, modalControls, showTurn }
 })();
-
-
-
-display.modal()
-
-display.update(gameBoard.getBoard())
 
 logic.playGame()
